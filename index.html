@@ -4,19 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orbitals</title>
+  <link rel="stylesheet" href="inline.css">
 </head>
 <body>
   
-<div>
+<div id="sedm">
+
   <label for="numberInput">Number of ORBITALS:</label>
   <input type="number" id="numberInput" placeholder="Enter number of bodies" oninput="nwe()" value="1"/>
-</div>
+
 
 <div id="velocityInputsContainer"></div>
 <div id="orbitInputsContainer"></div>
-<div id="angleInputsContainer"></div>
 
 <button onclick="resetAnimation()">Paste & Restart</button>
+
+</div>
 
 
 <canvas id="orbitCanvas"></canvas>
