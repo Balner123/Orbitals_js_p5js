@@ -3,10 +3,11 @@ let circleY;
 let centerx = [];
 let centery = [];
 let orbitals = [];
-let NT_NUMBER = 4;
+let NT_NUMBER = 1;
 let velocites = [3,-3,3,-3];
 let orbits = [200,100,50,25];
-let anglep = [100,0,0,0];
+let anglep = [0,0,0,0];
+let numberInputValue;
 
 class Orbital {
   constructor(i) {
@@ -19,8 +20,8 @@ class Orbital {
   }
 
   move() {
-    this.x = centerx[this.i] + Math.cos(anglep[this.i] * (PI / 180)) * orbits[this.i];
-    this.y = centery[this.i] + Math.sin(anglep[this.i] * (PI / 180)) * orbits[this.i];
+    this.x = centerx[this.i] + Math.cos(this.angle * (PI / 180)) * orbits[this.i];
+    this.y = centery[this.i] + Math.sin(this.angle * (PI / 180)) * orbits[this.i];
     centerx[this.i + 1] = this.x;
     centery[this.i + 1] = this.y;
 
@@ -37,14 +38,14 @@ class Orbital {
 
   angles() {
     if(this.i%1){
-      anglep[this.i] += velocites[this.i];
-        if (anglep[this.i] == 360) {
-          anglep[this.i] = 0;
+      this.angle += velocites[this.i];
+        if (this.angle == 360) {
+          this.angle = 0;
         }
     }else{
-      anglep[this.i] -= velocites[this.i];
-        if (anglep[this.i] == -360) {
-          anglep[this.i] = 0;
+      this.angle -= velocites[this.i];
+        if (this.angle == -360) {
+          this.angle = 0;
         }
     }
   }
@@ -67,7 +68,7 @@ class Orbital {
 }
 
 function setup() {
-  createCanvas(displayWidth, 800);
+  createCanvas(displayWidth, displayHeight);
   circleX = width / 2;
   circleY = height / 2;
   centerx[0] = circleX;
@@ -78,6 +79,62 @@ function setup() {
   }
 }
 
+
+//info gathering for animations --->
+
+
+function resetAnimation() {
+  // Clear existing data
+  NT_NUMBER = numberInputValue;
+  orbitals = [];
+  velocites = [];
+  orbits = [];
+
+  for (var i = 0; i < NT_NUMBER; i++) {
+    var idKonkretnihoInputu = 'orbit' + i;
+    orbits[i] = document.getElementById(idKonkretnihoInputu).value;
+    var vel = 'velocity' + i;
+    velocites[i] = document.getElementById(vel).value;
+  }
+
+  for (let i = 0; i < NT_NUMBER; i++) {
+    orbitals.push(new Orbital(i/** , velocites[i]*/));   /**<------ info managment :  */
+  }
+
+
+}
+
+
+function nwe() {
+  numberInputValue = document.getElementById('numberInput').value;
+  var velocityInputsContainer = document.getElementById('velocityInputsContainer');
+  var orbitInputsContainer = document.getElementById('orbitInputsContainer');
+  velocityInputsContainer.innerHTML = ""; // Clear previous velocity inputs
+  orbitInputsContainer.innerHTML = ""; // Clear previous orbit inputs
+  
+
+  for (var i = 0; i < numberInputValue; i++) {
+    // Create velocity input
+    var velocityInput = document.createElement('input');
+    velocityInput.type = 'number';
+    velocityInput.className = 'velocityInput';
+    velocityInput.id = 'velocity' + i;
+    velocityInput.placeholder = 'Enter velocity';
+    velocityInputsContainer.appendChild(velocityInput);
+
+    // Create orbit input
+    var orbitInput = document.createElement('input');
+    orbitInput.type = 'number';
+    orbitInput.className = 'orbitInput';
+    orbitInput.id = 'orbit' + i;
+    orbitInput.placeholder = 'Enter orbit';
+    orbitInputsContainer.appendChild(orbitInput);
+  }
+}
+
+  
+
+
 function draw() {
   background(0);
   fill(255, 255, 255);
@@ -86,6 +143,19 @@ function draw() {
   orbitals.forEach(function (orbital, idx, arr) {
     orbital.draw();
   });
+
+  push();
+  textSize(24);
+  fill(255);
+  textAlign(LEFT, BOTTOM);
+
+
+  for(let i=0;i<NT_NUMBER;i++){
+
+    text("Orbital"+ i + " l=" + orbits[i] + " v=" + velocites[i] + ";", 30, height - 30-i*40);
+
+  }
+  pop();
 
   
   /**if(frameCount%50==0){
