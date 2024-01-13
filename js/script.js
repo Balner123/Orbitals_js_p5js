@@ -3,7 +3,7 @@ let circleY;
 let centerx = [];
 let centery = [];
 let orbitals = [];
-let NT_NUMBER = 4;
+let NT_NUMBER = 1;
 let velocites = [3,-3,3,-3];
 let orbits = [200,100,50,25];
 let anglep = [0,0,0,0];
@@ -37,12 +37,17 @@ class Orbital {
   }
 
   angles() {
-    
+    if(this.i%1){
       this.angle += velocites[this.i];
-        if (this.angle == 360 || this.angle == -360) {
+        if (this.angle == 360) {
           this.angle = 0;
         }
-    
+    }else{
+      this.angle -= velocites[this.i];
+        if (this.angle == -360) {
+          this.angle = 0;
+        }
+    }
   }
 
   draw() {
@@ -147,7 +152,7 @@ function draw() {
 
   for(let i=0;i<NT_NUMBER;i++){
 
-    text("Orbital"+ i + " l=" + orbits[i] + " v=" + velocites[i] + ";", 30, height - 30-i*30);
+    text("Orbital"+ i + " l=" + orbits[i] + " v=" + velocites[i] + ";", 30, height - 30-i*40);
 
   }
   pop();
