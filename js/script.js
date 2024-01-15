@@ -30,7 +30,7 @@ class Orbital {
       this.trail.push(createVector(this.x, this.y));
 
       // Omezení délky stopy na "x" bodů
-      if (this.trail.length > 2000) {
+      if (this.trail.length > 7000) {
         this.trail.shift();
       }
    }
