@@ -111,6 +111,8 @@ function resetAnimation() {
   orbitals = [];
   velocites = [];
   orbits = [];
+  scope = 0.5;
+  accer = 1;
 
   for (var i = 0; i < NT_NUMBER; i++) {
     var idKonkretnihoInputu = 'orbit' + i;
