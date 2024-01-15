@@ -80,7 +80,6 @@ function plusorb(na){
 }
 
 function plusvel(na){
-  orbitals[orbitals.length-1].trail = [];
   if(na==0){
     accer += 0.2;
   }
@@ -91,7 +90,7 @@ function plusvel(na){
 
 
 function setup() {
-  createCanvas(1200,900);
+  createCanvas(windowWidth/1.75,windowHeight);
   circleX = width / 2;
   circleY = height / 2;
   centerx[0] = circleX;
