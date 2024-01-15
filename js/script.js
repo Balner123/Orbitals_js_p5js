@@ -3,11 +3,12 @@ let circleY;
 let centerx = [];
 let centery = [];
 let orbitals = [];
-let NT_NUMBER = 1;
-let velocites = [3,-3,3,-3];
+let NT_NUMBER = 2;
+let velocites = [3.1*2, 7*2,3,-3];
 let orbits = [200,100,50,25];
 let anglep = [0,0,0,0];
 let numberInputValue;
+let scope = 0.5;
 
 class Orbital {
   constructor(i) {
@@ -20,8 +21,8 @@ class Orbital {
   }
 
   move() {
-    this.x = centerx[this.i] + Math.cos(this.angle * (PI / 180)) * orbits[this.i];
-    this.y = centery[this.i] + Math.sin(this.angle * (PI / 180)) * orbits[this.i];
+    this.x = centerx[this.i] + Math.cos(this.angle * (PI / 180)) * (orbits[this.i]*scope);
+    this.y = centery[this.i] + Math.sin(this.angle * (PI / 180)) * (orbits[this.i]*scope);
     centerx[this.i + 1] = this.x;
     centery[this.i + 1] = this.y;
 
@@ -55,7 +56,7 @@ class Orbital {
     this.move();
     push();
     fill(255, 255, 255);
-    ellipse(this.x, this.y, 5, 5);
+    ellipse(this.x, this.y, 5*scope, 5*scope);
     stroke(255);
     line(this.x, this.y, centerx[this.i], centery[this.i]);
     pop();
@@ -67,8 +68,19 @@ class Orbital {
   }
 }
 
+function plus(na){
+  orbitals[orbitals.length-1].trail = [];
+  if(na==0){
+    scope += 0.2;
+  }
+  else{scope -= 0.2;}
+
+
+}
+
+
 function setup() {
-  createCanvas(displayWidth, displayHeight);
+  createCanvas(800, 800);
   circleX = width / 2;
   circleY = height / 2;
   centerx[0] = circleX;
@@ -138,7 +150,7 @@ function nwe() {
 function draw() {
   background(0);
   fill(255, 255, 255);
-  ellipse(circleX, circleY, 20, 20);
+  ellipse(circleX, circleY, 20*scope, 20*scope);
 
   orbitals.forEach(function (orbital, idx, arr) {
     orbital.draw();
