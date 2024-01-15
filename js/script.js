@@ -91,7 +91,7 @@ function plusvel(na){
 
 
 function setup() {
-  createCanvas(800,800);
+  createCanvas(1200,900);
   circleX = width / 2;
   circleY = height / 2;
   centerx[0] = circleX;
