@@ -9,6 +9,7 @@ let orbits = [200,100,50,25];
 let anglep = [0,0,0,0];
 let numberInputValue;
 let scope = 0.5;
+let accer = 1;
 
 class Orbital {
   constructor(i) {
@@ -39,12 +40,12 @@ class Orbital {
 
   angles() {
     if(this.i%1){
-      this.angle += velocites[this.i];
+      this.angle += velocites[this.i]*accer;
         if (this.angle == 360) {
           this.angle = 0;
         }
     }else{
-      this.angle -= velocites[this.i];
+      this.angle -= velocites[this.i]*accer;
         if (this.angle == -360) {
           this.angle = 0;
         }
@@ -68,7 +69,7 @@ class Orbital {
   }
 }
 
-function plus(na){
+function plusorb(na){
   orbitals[orbitals.length-1].trail = [];
   if(na==0){
     scope += 0.2;
@@ -78,9 +79,19 @@ function plus(na){
 
 }
 
+function plusvel(na){
+  orbitals[orbitals.length-1].trail = [];
+  if(na==0){
+    accer += 0.2;
+  }
+  else{accer -= 0.2;}
+
+
+}
+
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(800,800);
   circleX = width / 2;
   circleY = height / 2;
   centerx[0] = circleX;
@@ -121,30 +132,35 @@ function nwe() {
   numberInputValue = document.getElementById('numberInput').value;
   var velocityInputsContainer = document.getElementById('velocityInputsContainer');
   var orbitInputsContainer = document.getElementById('orbitInputsContainer');
-  velocityInputsContainer.innerHTML = ""; // Clear previous velocity inputs
-  orbitInputsContainer.innerHTML = ""; // Clear previous orbit inputs
-  
+  velocityInputsContainer.innerHTML = "";
+  orbitInputsContainer.innerHTML = ""; 
 
   for (var i = 0; i < numberInputValue; i++) {
-    // Create velocity input
+    
+    var tableRow = document.createElement('tr');
+
+    
     var velocityInput = document.createElement('input');
     velocityInput.type = 'number';
     velocityInput.className = 'velocityInput';
     velocityInput.id = 'velocity' + i;
     velocityInput.placeholder = 'Enter velocity';
-    velocityInputsContainer.appendChild(velocityInput);
 
-    // Create orbit input
+   
     var orbitInput = document.createElement('input');
     orbitInput.type = 'number';
     orbitInput.className = 'orbitInput';
     orbitInput.id = 'orbit' + i;
     orbitInput.placeholder = 'Enter orbit';
-    orbitInputsContainer.appendChild(orbitInput);
+
+    
+    tableRow.appendChild(velocityInput);
+    tableRow.appendChild(orbitInput);
+
+    
+    velocityInputsContainer.appendChild(tableRow);
   }
 }
-
-  
 
 
 function draw() {
@@ -157,14 +173,14 @@ function draw() {
   });
 
   push();
-  textSize(24);
+  textSize(20);
   fill(255);
   textAlign(LEFT, BOTTOM);
 
 
   for(let i=0;i<NT_NUMBER;i++){
 
-    text("Orbital"+ i + " l=" + orbits[i] + " v=" + velocites[i] + ";", 30, height - 30-i*40);
+    text("Orbital"+ i + " l=" + orbits[i] + " v=" + velocites[i] + ";", 30, height - 30-i*20);
 
   }
   pop();
