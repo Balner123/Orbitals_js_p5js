@@ -106,7 +106,6 @@ function setup() {
 
 
 function resetAnimation() {
-  // Clear existing data
   NT_NUMBER = numberInputValue;
   orbitals = [];
   velocites = [];
@@ -164,8 +163,14 @@ function nwe() {
 }
 
 
+
 function draw() {
   background(0);
+
+  if(1==1){
+      mriz();
+  }
+
   fill(255, 255, 255);
   ellipse(circleX, circleY, 20*scope, 20*scope);
 
@@ -220,3 +225,25 @@ function drawTrail(trail) {
   }
   endShape();
 }
+
+
+function mriz(){
+    let mez=20;
+    stroke(255);
+    strokeWeight(0.25);
+
+      for(let i=0;i<height/mez;i++){
+
+      line(0, height/2+(i*mez), width, height/2+(i*mez));
+      line(0, height/2-(i*mez), width, height/2-(i*mez));
+      }
+
+      for(let i=0;i<width/mez;i++){
+
+        line(width/2+(i*mez),0, width/2+(i*mez), height);
+        line(width/2-(i*mez),0, width/2-(i*mez),height);
+        }
+
+    
+  }
+  
