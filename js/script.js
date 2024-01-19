@@ -230,7 +230,7 @@ function drawTrail(trail) {
 function mriz(){
     let mez=20;
     stroke(255);
-    strokeWeight(0.25);
+    strokeWeight(0.15);
 
       for(let i=0;i<height/mez;i++){
 
