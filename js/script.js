@@ -11,6 +11,16 @@ let numberInputValue;
 let scope = 0.5;
 let accer = 1;
 
+let desDisplay = document.createElement("span");
+let desDisplayContainer = document.getElementById('desDisplay'); 
+desDisplayContainer.appendChild(desDisplay);
+desDisplay.textContent = `(${accer * 100}%)`;
+
+let angDisplay = document.createElement("span");
+let angDisplayContainer = document.getElementById('angDisplay'); 
+angDisplayContainer.appendChild(angDisplay);
+angDisplay.textContent = `(${scope* 100}%)`;
+
 class Orbital {
   constructor(i) {
     this.i = i;
@@ -50,6 +60,7 @@ class Orbital {
           this.angle = 0;
         }
     }
+    
   }
 
   draw() {
@@ -74,7 +85,8 @@ function plusorb(na){
   if(na==0){
     scope += 0.2;
   }
-  else{scope -= 0.2;}
+  else if(scope>0.2){scope -= 0.2;}
+  angDisplay.textContent = `(${Math.round(scope * 100 / 10) * 10}%)`;
 
 
 }
@@ -83,7 +95,8 @@ function plusvel(na){
   if(na==0){
     accer += 0.2;
   }
-  else{accer -= 0.2;}
+  else if(accer>0.2){accer -= 0.2;}
+desDisplay.textContent = `(${Math.round(accer * 100 / 10) * 10}%)`;
 
 
 }
@@ -244,6 +257,6 @@ function mriz(){
         line(width/2-(i*mez),0, width/2-(i*mez),height);
         }
 
-    
+        strokeWeight(1.5);
   }
   
