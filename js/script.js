@@ -108,7 +108,7 @@ function setup() {
   circleY = height / 2;
   centerx[0] = circleX;
   centery[0] = circleY;
-
+ strokeWeight(0.15);
   for (let i = 0; i < NT_NUMBER; i++) {
     orbitals.push(new Orbital(i/** , velocites[i]*/));   /**<------ info managment :  */
   }
