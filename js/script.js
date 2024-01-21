@@ -16,7 +16,7 @@ let orbits = [100,50,20,20];
 let nummers = [1,1,2,1];
 
 let numberInputValue;
-let scope = 0.5;
+let scope = 0.75;
 let accer = 0.25;
 let setW = 1.0;
 
