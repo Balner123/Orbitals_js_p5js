@@ -1,3 +1,45 @@
+let circleX;
+let circleY;
+let centerx = [];
+let centery = [];
+
+for (let i = 0; i < 10; i++) {
+  centerx.push([]);
+  centery.push([]);
+}
+let orbitals = [];
+
+let NT_NUMBER = 2;
+
+let velocites = [3*2, -20*2,3,4];
+let orbits = [100,50,20,20];
+let nummers = [1,5,2,1];
+
+let numberInputValue;
+let scope = 0.5;
+let accer = 0.25;
+let setW = 1.0;
+
+let desDisplay = document.createElement("span");
+let desDisplayContainer = document.getElementById('desDisplay'); 
+desDisplayContainer.appendChild(desDisplay);
+desDisplay.textContent = `(${accer * 100}%)`;
+
+let angDisplay = document.createElement("span");
+let angDisplayContainer = document.getElementById('angDisplay'); 
+angDisplayContainer.appendChild(angDisplay);
+angDisplay.textContent = `(${scope* 100}%)`;
+
+let WeiDisplay = document.createElement("span");
+let WeiDisplayContainer = document.getElementById('WeiDisplay'); 
+WeiDisplayContainer.appendChild(WeiDisplay);
+WeiDisplay.textContent = `(${setW* 100}%)`;
+
+
+
+
+
+
 //objects , constructors ------------>
 class Orbital {
   constructor(i,ang,v) {
@@ -67,47 +109,91 @@ class Orbital {
 
 
 // end objects, constructors --------------->
+//info gathering for animations --->
 
-//functions---
 
-let circleX;
-let circleY;
-let centerx = [];
-let centery = [];
+function resetAnimation() {
+  NT_NUMBER = numberInputValue;
+  orbitals = [];
+  velocites = [];
+  orbits = [];
+  
+  scope = 0.5;
+  accer = 1.0;
+  setW=1.0;
+
+  for (var i = 0; i < NT_NUMBER; i++) {
+    var orbi = 'orbit' + i;
+    orbits[i] = document.getElementById(orbi).value;
+    var vel = 'velocity' + i;
+    velocites[i] = document.getElementById(vel).value;
+
+    var num = 'nummers' + i;
+    nummers[i] = document.getElementById(num).value;
+  }
+
+centerx = [];
+centery = [];
 
 for (let i = 0; i < 10; i++) {
   centerx.push([]);
   centery.push([]);
 }
-let orbitals = [];
 
-let NT_NUMBER = 2;
+  for(let i =0;i<nummers[0];i++){
+    centerx[0][i] = circleX;
+    centery[0][i] = circleY;
+  }
+  setOrbitals();
 
-let velocites = [3*2, 5*2,3,4];
-let orbits = [200,50,40,20];
-let nummers = [1,4,1,1];
+}
 
-let numberInputValue;
-let scope = 0.5;
-let accer = 0.25;
-let setW = 1.0;
+function nwe() {
+  numberInputValue = document.getElementById('numberInput').value;
+  var velocityInputsContainer = document.getElementById('velocityInputsContainer');
+  var orbitInputsContainer = document.getElementById('orbitInputsContainer');
+  var nummersInputsContainer = document.getElementById('nummersInputsContainer');
+  nummersInputsContainer.innerHTML = "";
+  velocityInputsContainer.innerHTML = "";
+  orbitInputsContainer.innerHTML = ""; 
 
-let desDisplay = document.createElement("span");
-let desDisplayContainer = document.getElementById('desDisplay'); 
-desDisplayContainer.appendChild(desDisplay);
-desDisplay.textContent = `(${accer * 100}%)`;
+  for (var i = 0; i < numberInputValue; i++) {
 
-let angDisplay = document.createElement("span");
-let angDisplayContainer = document.getElementById('angDisplay'); 
-angDisplayContainer.appendChild(angDisplay);
-angDisplay.textContent = `(${scope* 100}%)`;
+    var tableRow = document.createElement('tr');
 
-let WeiDisplay = document.createElement("span");
-let WeiDisplayContainer = document.getElementById('WeiDisplay'); 
-WeiDisplayContainer.appendChild(WeiDisplay);
-WeiDisplay.textContent = `(${setW* 100}%)`;
+    var orbitLabel = document.createElement('span');
+    orbitLabel.textContent = `${i + 1}. orbit-layer:`;
 
+    var nummersInput = document.createElement('input');
+    nummersInput.type = 'number';
+    nummersInput.className = 'nummersInput';
+    nummersInput.id = 'nummers' + i;
+    nummersInput.placeholder = 'Enter count of orbitals';
 
+    var velocityInput = document.createElement('input');
+    velocityInput.type = 'number';
+    velocityInput.className = 'velocityInput';
+    velocityInput.id = 'velocity' + i;
+    velocityInput.placeholder = 'Enter velocity';
+   
+    var orbitInput = document.createElement('input');
+    orbitInput.type = 'number';
+    orbitInput.className = 'orbitInput';
+    orbitInput.id = 'orbit' + i;
+    orbitInput.placeholder = 'Enter orbit';
+
+    tableRow.appendChild(orbitLabel);
+    tableRow.appendChild(velocityInput);
+    tableRow.appendChild(orbitInput);
+    tableRow.appendChild(nummersInput);
+
+    
+    velocityInputsContainer.appendChild(tableRow);
+  }
+}
+
+//end info gathering for animation --->
+//functions---
 
 
 function plusorb(na){
@@ -219,76 +305,7 @@ function setup() {
 
 //end setup canvas --->
 
-//info gathering for animations --->
 
-
-function resetAnimation() {
-  NT_NUMBER = numberInputValue;
-  orbitals = [];
-  velocites = [];
-  orbits = [];
-  nummers = []
-  scope = 0.5;
-  accer = 1;
-
-  for (var i = 0; i < NT_NUMBER; i++) {
-    var orbi = 'orbit' + i;
-    orbits[i] = document.getElementById(orbi).value;
-    var vel = 'velocity' + i;
-    velocites[i] = document.getElementById(vel).value;
-    var num = 'nummers' + i;
-    nummers[i] = document.getElementById(num).value;
-  }
-
-  setOrbitals();
-
-}
-
-function nwe() {
-  numberInputValue = document.getElementById('numberInput').value;
-  var velocityInputsContainer = document.getElementById('velocityInputsContainer');
-  var orbitInputsContainer = document.getElementById('orbitInputsContainer');
-  var nummersInputsContainer = document.getElementById('nummersInputsContainer');
-  nummersInputsContainer.innerHTML = "";
-  velocityInputsContainer.innerHTML = "";
-  orbitInputsContainer.innerHTML = ""; 
-
-  for (var i = 0; i < numberInputValue; i++) {
-
-    var tableRow = document.createElement('tr');
-
-    var orbitLabel = document.createElement('span');
-    orbitLabel.textContent = `${i + 1}. orbit-layer:`;
-
-    var nummersInput = document.createElement('input');
-    nummersInput.type = 'number';
-    nummersInput.className = 'nummersInput';
-    nummersInput.id = 'nummers' + i;
-    nummersInput.placeholder = 'Enter count of orbitals';
-
-    var velocityInput = document.createElement('input');
-    velocityInput.type = 'number';
-    velocityInput.className = 'velocityInput';
-    velocityInput.id = 'velocity' + i;
-    velocityInput.placeholder = 'Enter velocity';
-   
-    var orbitInput = document.createElement('input');
-    orbitInput.type = 'number';
-    orbitInput.className = 'orbitInput';
-    orbitInput.id = 'orbit' + i;
-    orbitInput.placeholder = 'Enter orbit';
-
-    tableRow.appendChild(orbitLabel);
-    tableRow.appendChild(velocityInput);
-    tableRow.appendChild(orbitInput);
-    tableRow.appendChild(nummersInput);
-
-    
-    velocityInputsContainer.appendChild(tableRow);
-  }
-}
-
-//end info gathering for animation --->
 
 //draw --->
 
