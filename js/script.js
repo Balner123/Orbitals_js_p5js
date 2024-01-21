@@ -11,9 +11,9 @@ let orbitals = [];
 
 let NT_NUMBER = 2;
 
-let velocites = [3*2, -20*2,3,4];
+let velocites = [3.1*3, 7*3,3,4];
 let orbits = [100,50,20,20];
-let nummers = [1,5,2,1];
+let nummers = [1,1,2,1];
 
 let numberInputValue;
 let scope = 0.5;
@@ -49,7 +49,7 @@ class Orbital {
     this.x;
     this.y;
     this.trail = [];
-    
+    this.desi=0;
     console.log(this.we, this.i,);
     
   }
@@ -65,14 +65,26 @@ class Orbital {
           
         push();
       }
-
-   if (this.i === NT_NUMBER - 1) {
-      this.trail.push(createVector(this.x, this.y));
-
-      if (this.trail.length > 10000) {
-        this.trail.shift();
+      
+      if (this.i === NT_NUMBER - 1) {
+        // Kontrola délky pole trail[]
+        if (this.trail.length > 0) {
+          // Kontrola, zda nová pozice již existuje v polích trail[] všech objektů v poli orbitals[]
+          if (!orbitals.some(orb => orb.trail.some(pos => pos.x === this.x && pos.y === this.y))) {
+            this.trail.push(createVector(this.x, this.y));
+            
+            // Omezení délky pole na 10000 prvků
+           
+          }
+        } else {
+          // Pokud délka pole je 0, přidáme novou pozici na konec pole
+          this.trail.push(createVector(this.x, this.y));
+        }
+        if (this.trail.length > 10000) {
+          this.trail.shift();
+        }
       }
-    }  
+    
   }
 
   angles() {
@@ -162,7 +174,7 @@ function nwe() {
     var tableRow = document.createElement('tr');
 
     var orbitLabel = document.createElement('span');
-    orbitLabel.textContent = `${i + 1}. orbit-layer:`;
+    orbitLabel.textContent = `${i + 1}. Orbit.L:`;
 
     var nummersInput = document.createElement('input');
     nummersInput.type = 'number';
@@ -224,6 +236,8 @@ function chanWei(na){
 WeiDisplay.textContent = `(${Math.round(setW * 100 / 10) * 10}%)`;
 }
 
+//trail drawing , clearing ----->
+
 function clearTrails() {
   for (let i = 0; i < orbitals.length; i++) {
     orbitals[i].trail = [];
@@ -242,6 +256,7 @@ function drawTrail(trail) {
   endShape();
 }
 
+//trail end ------>
 
 function mriz(){
     let mez=20;
@@ -262,6 +277,7 @@ function mriz(){
 
         strokeWeight(1.5);
   }
+//orbitals setup ----->
 
   function setOrbitals(){
     let de=0 ;
