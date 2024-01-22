@@ -1,5 +1,10 @@
+
+//inicializace a vytvoření promněných , potřebných pro průběh programu
+
 let circleX;
 let circleY;
+
+//pole pro souřadnice středů
 let centerx = [];
 let centery = [];
 
@@ -7,18 +12,25 @@ for (let i = 0; i < 10; i++) {
   centerx.push([]);
   centery.push([]);
 }
-let orbitals = [];
+//---->
 
-let NT_NUMBER = 2;
+let orbitals = [];  //pole objektů vytvořených kontruktorem
 
-let velocites = [3.1*3, 7*3,3,4];
-let orbits = [100,50,20,20];
-let nummers = [1,1,2,1];
+let NT_NUMBER = 2;  //počet vrstev orbitalů (Start Count)
 
+let velocites = [3.1*3, 7*3,3,4];   //rychlosti
+let orbits = [100,50,20,20];        //vzdálenosti
+let nummers = [1,1,2,1];            //počet orbitalů na každý z vrstvy předchozí
+
+
+//přednastavené modifikatory pro zvětšování , zrychlování a StrokeWeight
 let numberInputValue;
-let scope = 0.75;
+let scope = 0.85;   
 let accer = 0.25;
 let setW = 1.0;
+
+
+//vypis aktualní změny hodnot (v %)
 
 let desDisplay = document.createElement("span");
 let desDisplayContainer = document.getElementById('desDisplay'); 
@@ -35,14 +47,13 @@ let WeiDisplayContainer = document.getElementById('WeiDisplay');
 WeiDisplayContainer.appendChild(WeiDisplay);
 WeiDisplay.textContent = `(${setW* 100}%)`;
 
-
-
-
-
+//--------------------->
 
 //objects , constructors ------------>
-class Orbital {
-  constructor(i,ang,v) {
+
+
+class Orbital {       //třída Orbital << zakladní objekt v programu 
+  constructor(i,ang,v) {    //kontruktor k objektu 
     this.i = i;
     this.we = v;
     this.angle = ang;
@@ -50,15 +61,15 @@ class Orbital {
     this.y;
     this.trail = [];
     this.desi=0;
-    console.log(this.we, this.i,);
+    console.log(this.we, this.i,);  // pro potřebu kontroly...
     
   }
 
-  move() {
+  move() { // tato metoda aktualizuje x,y souřadnice a vykonává činosti s tím spojené...
     this.x = centerx[this.i][this.we] + Math.cos(this.angle * (PI / 180)) * (orbits[this.i]*scope);
     this.y = centery[this.i][this.we] + Math.sin(this.angle * (PI / 180)) * (orbits[this.i]*scope);
 
-        for(let z=0;z<nummers[this.i+1];z++){
+        for(let z=0;z<nummers[this.i+1];z++){     //aktualizace x,y souřadnic středu pro nadledující vrstvu orbitalů
 
           centerx[this.i + 1][z+this.we*nummers[this.i+1]] = this.x;
           centery[this.i + 1][z+this.we*nummers[this.i+1]] = this.y;
@@ -66,28 +77,18 @@ class Orbital {
         push();
       }
       
-      if (this.i === NT_NUMBER - 1) {
-        // Kontrola délky pole trail[]
-        if (this.trail.length > 0) {
-          // Kontrola, zda nová pozice již existuje v polích trail[] všech objektů v poli orbitals[]
-          if (!orbitals.some(orb => orb.trail.some(pos => pos.x === this.x && pos.y === this.y))) {
-            this.trail.push(createVector(this.x, this.y));
-            
-            // Omezení délky pole na 10000 prvků
-           
-          }
-        } else {
-          // Pokud délka pole je 0, přidáme novou pozici na konec pole
-          this.trail.push(createVector(this.x, this.y));
-        }
-        if (this.trail.length > 10000) {
+      if (this.i === NT_NUMBER - 1) {     //přidání pozice posledního orbitalu do pole trail[] (pouze unikatní pozice)+ omezení velikosti zaznamenanétrasy...
+       
+        this.trail.push(createVector(this.x, this.y));
+       
+        if (this.trail.length > 10000) {  //omezení velikosti
           this.trail.shift();
         }
       }
     
   }
 
-  angles() {
+  angles() {    //metoda aktualizace uhlů dle uhlové rychlosti 
     if(this.i%1){
       this.angle += velocites[this.i]*accer;
         if (this.angle == 360) {
@@ -102,7 +103,7 @@ class Orbital {
     
   }
 
-  draw() {
+  draw() {    // Draw --> vyvolání metod() + vykreslení objektu (kruh + line); 
     this.angles();
     this.move();
     push();
@@ -114,7 +115,7 @@ class Orbital {
     pop();
 
 
-      drawTrail(this.trail);
+      drawTrail(this.trail)   //vyvolání funkce pro vykreslení trasy 
     
   }
 }
@@ -124,7 +125,7 @@ class Orbital {
 //info gathering for animations --->
 
 
-function resetAnimation() {
+function resetAnimation() {   //funkce pro znovu ačtení hodnot a nahraní hodnot z formuláře
   NT_NUMBER = numberInputValue;
   orbitals = [];
   velocites = [];
@@ -134,7 +135,7 @@ function resetAnimation() {
   accer = 1.0;
   setW=1.0;
 
-  for (var i = 0; i < NT_NUMBER; i++) {
+  for (var i = 0; i < NT_NUMBER; i++) {   //input z formuláře
     var orbi = 'orbit' + i;
     orbits[i] = document.getElementById(orbi).value;
     var vel = 'velocity' + i;
@@ -144,7 +145,7 @@ function resetAnimation() {
     nummers[i] = document.getElementById(num).value;
   }
 
-centerx = [];
+centerx = [];     //reinicializace --->
 centery = [];
 
 for (let i = 0; i < 10; i++) {
@@ -156,11 +157,13 @@ for (let i = 0; i < 10; i++) {
     centerx[0][i] = circleX;
     centery[0][i] = circleY;
   }
-  setOrbitals();
+
+  //------->  
+  setOrbitals();    //vytvoření objektů dle nových hodnot...
 
 }
 
-function nwe() {
+function nwe() {        // vytváření input podoken v závislosti na zadané hodnotě ORBITAL_NUMBER
   numberInputValue = document.getElementById('numberInput').value;
   var velocityInputsContainer = document.getElementById('velocityInputsContainer');
   var orbitInputsContainer = document.getElementById('orbitInputsContainer');
@@ -169,7 +172,7 @@ function nwe() {
   velocityInputsContainer.innerHTML = "";
   orbitInputsContainer.innerHTML = ""; 
 
-  for (var i = 0; i < numberInputValue; i++) {
+  for (var i = 0; i < numberInputValue; i++) {  //vytvoření tolika   řádků o třech sloupcích 
 
     var tableRow = document.createElement('tr');
 
