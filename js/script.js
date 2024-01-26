@@ -21,13 +21,14 @@ let NT_NUMBER = 2;  //počet vrstev orbitalů (Start Count)
 let velocites = [3.1*3, 7*3,3,4];   //rychlosti
 let orbits = [100,50,20,20];        //vzdálenosti
 let nummers = [1,1,2,1];            //počet orbitalů na každý z vrstvy předchozí
-
+let deflections = [0,0,0,0];
 
 //přednastavené modifikatory pro zvětšování , zrychlování a StrokeWeight
 let numberInputValue;
 let scope = 0.85;   
 let accer = 0.25;
 let setW = 1.0;
+let angleation = 0;
 
 
 //vypis aktualní změny hodnot (v %)
@@ -47,6 +48,10 @@ let WeiDisplayContainer = document.getElementById('WeiDisplay');
 WeiDisplayContainer.appendChild(WeiDisplay);
 WeiDisplay.textContent = `(${setW* 100}%)`;
 
+let rotDisplay = document.createElement("span");
+let rotDisplayContainer = document.getElementById('rotDisplay'); 
+rotDisplayContainer.appendChild(rotDisplay);
+rotDisplay.textContent = `(${angleation}°)`;
 //--------------------->
 
 //objects , constructors ------------>
@@ -56,11 +61,10 @@ class Orbital {       //třída Orbital << zakladní objekt v programu
   constructor(i,ang,v) {    //kontruktor k objektu 
     this.i = i;
     this.we = v;
-    this.angle = ang;
+    this.angle = ang-90;
     this.x;
     this.y;
     this.trail = [];
-    this.desi=0;
     console.log(this.we, this.i,);  // pro potřebu kontroly...
     
   }
@@ -130,10 +134,12 @@ function resetAnimation() {   //funkce pro znovu ačtení hodnot a nahraní hodn
   orbitals = [];
   velocites = [];
   orbits = [];
+  deflections = [];
   
   scope = 0.5;
   accer = 1.0;
   setW=1.0;
+  angleation=0;
 
   for (var i = 0; i < NT_NUMBER; i++) {   //input z formuláře
     var orbi = 'orbit' + i;
@@ -143,6 +149,8 @@ function resetAnimation() {   //funkce pro znovu ačtení hodnot a nahraní hodn
 
     var num = 'nummers' + i;
     nummers[i] = document.getElementById(num).value;
+    //var rot = 'defect' + i;
+    //deflections[i] = document.getElementById(rot).value;
   }
 
 centerx = [];     //reinicializace --->
@@ -168,9 +176,11 @@ function nwe() {        // vytváření input podoken v závislosti na zadané h
   var velocityInputsContainer = document.getElementById('velocityInputsContainer');
   var orbitInputsContainer = document.getElementById('orbitInputsContainer');
   var nummersInputsContainer = document.getElementById('nummersInputsContainer');
+  //var defectInputsContainer = document.getElementById('defectInputsContainer');
   nummersInputsContainer.innerHTML = "";
   velocityInputsContainer.innerHTML = "";
   orbitInputsContainer.innerHTML = ""; 
+ //defectInputsContainer.innerHTML = ""; 
 
   for (var i = 0; i < numberInputValue; i++) {  //vytvoření tolika   řádků o třech sloupcích 
 
@@ -197,7 +207,14 @@ function nwe() {        // vytváření input podoken v závislosti na zadané h
     orbitInput.id = 'orbit' + i;
     orbitInput.placeholder = 'Enter orbit';
 
+   /* var defectInput = document.createElement('input');
+    defectInput.type = 'number';
+    defectInput.className = 'defectInput';
+    defectInput.id = 'defect' + i;
+    defectInput.placeholder = 'Enter Start Deflection';*/
+
     tableRow.appendChild(orbitLabel);
+    //tableRow.appendChild(defectInput);
     tableRow.appendChild(velocityInput);
     tableRow.appendChild(orbitInput);
     tableRow.appendChild(nummersInput);
@@ -237,6 +254,17 @@ function chanWei(na){
   }
   else if(setW>0.1){setW -= 0.1;}
 WeiDisplay.textContent = `(${Math.round(setW * 100 / 10) * 10}%)`;
+}
+
+function plusrot(na){
+  if(na==0){
+    angleation += 45;
+  }
+  else if(true){angleation -= 45;}
+rotDisplay.textContent = `(${angleation}°)`;
+clearTrails();
+orbitals = [];
+setOrbitals();
 }
 
 //trail drawing , clearing ----->
@@ -288,11 +316,11 @@ function mriz(){
       de = fact(i);
       if(i<1){
         for(let v = 0;v < nummers[i];v++){
-          orbitals.push(new Orbital(i,(360/nummers[i]*v)-90,v));
+          orbitals.push(new Orbital(i,(360/nummers[i]*v)+angleation,v));
       }
       }else{
         for(let v = 0;v < de;v++){
-          orbitals.push(new Orbital(i,(360/nummers[i]*v)-90,v));
+          orbitals.push(new Orbital(i,(360/nummers[i]*v)+angleation,v));
       }
       }
     }
