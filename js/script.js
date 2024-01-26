@@ -288,11 +288,11 @@ function mriz(){
       de = fact(i);
       if(i<1){
         for(let v = 0;v < nummers[i];v++){
-          orbitals.push(new Orbital(i,360/nummers[i]*v,v));
+          orbitals.push(new Orbital(i,(360/nummers[i]*v)-90,v));
       }
       }else{
         for(let v = 0;v < de;v++){
-          orbitals.push(new Orbital(i,360/nummers[i]*v,v));
+          orbitals.push(new Orbital(i,(360/nummers[i]*v)-90,v));
       }
       }
     }
