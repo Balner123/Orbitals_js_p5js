@@ -29,6 +29,9 @@ let scope = 0.85;
 let accer = 0.25;
 let setW = 1.0;
 let angleation = 0;
+let onob = 1;
+let onmriz = 1;
+let colr = 0;
 
 
 //vypis aktualní změny hodnot (v %)
@@ -111,14 +114,17 @@ class Orbital {       //třída Orbital << zakladní objekt v programu
     this.angles();
     this.move();
     push();
+    if(onob!=0){
+      
     fill(255, 255, 255);
+    ellipse(circleX, circleY, 20*scope, 20*scope);
     ellipse(this.x, this.y, 5*scope, 5*scope);
-    stroke(255);
-    strokeWeight(1.0);
+    stroke(colr==1?0:255);
+    strokeWeight(1.2);
     line(this.x, this.y, centerx[this.i][this.we], centery[this.i][this.we]);
+    }
+    
     pop();
-
-
       drawTrail(this.trail)   //vyvolání funkce pro vykreslení trasy 
     
   }
@@ -140,6 +146,9 @@ function resetAnimation() {   //funkce pro znovu ačtení hodnot a nahraní hodn
   accer = 1.0;
   setW=1.0;
   angleation=0;
+  onob = 1;
+  onmriz = 1;
+  colr = 0;
 
   for (var i = 0; i < NT_NUMBER; i++) {   //input z formuláře
     var orbi = 'orbit' + i;
@@ -227,6 +236,17 @@ function nwe() {        // vytváření input podoken v závislosti na zadané h
 //end info gathering for animation --->
 //functions---
 
+function mrizon(){
+  onmriz==1?onmriz=0:onmriz=1;
+}
+
+function onobjekts(){
+  onob==1?onob=0:onob=1;
+}
+
+function colormod(){
+  colr==0?colr=1:colr=0;
+}
 
 function plusorb(na){
   clearTrails();
@@ -276,7 +296,12 @@ function clearTrails() {
 }
 
 function drawTrail(trail) {
-  stroke(255, 255, 0);
+  if(colr==1){
+    stroke(0, 0, 0);
+  }else{
+stroke(255, 255, 0);
+  }
+  
   strokeWeight(setW);
   noFill();
 
@@ -291,7 +316,7 @@ function drawTrail(trail) {
 
 function mriz(){
     let mez=20;
-    stroke(255);
+    stroke(colr==1?0:255);
     strokeWeight(0.1);
 
       for(let i=0;i<height/mez;i++){
@@ -357,10 +382,10 @@ function setup() {
 //draw --->
 
 function draw() {
-  background(0);
-      mriz();
+  background(colr==1?255:0);
+  if(onmriz!=0){
+        mriz();}
   fill(255, 255, 255);
-  ellipse(circleX, circleY, 20*scope, 20*scope);
 
 
   orbitals.forEach(function (orbital) {
