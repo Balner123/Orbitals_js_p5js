@@ -68,7 +68,7 @@ class Orbital {       //třída Orbital << zakladní objekt v programu
     this.x;
     this.y;
     this.trail = [];
-    console.log(this.we, this.i,);  // pro potřebu kontroly...
+    console.log("Layer:",this.i+1 ,",","Orbital:", this.we+1);  // pro potřebu kontroly...
     
   }
 
