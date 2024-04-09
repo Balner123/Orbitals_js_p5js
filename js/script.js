@@ -408,5 +408,9 @@ function draw() {
 
 //end draw --->
 
+console.log("Objects_Orbitals: ",orbitals);
+  console.log("orbit_on_layer: ",nummers);
+  console.log("souradniceXY: ",centerx,centery);
+
 
   
