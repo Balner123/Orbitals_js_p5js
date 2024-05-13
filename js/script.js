@@ -31,7 +31,7 @@ let setW = 1.0;
 let angleation = 0;
 let onob = 1;
 let onmriz = 1;
-let colr = 0;
+let colr = 1;
 
 
 //vypis aktualní změny hodnot (v %)
