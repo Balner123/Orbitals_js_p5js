@@ -146,9 +146,6 @@ function resetAnimation() {   //funkce pro znovu ačtení hodnot a nahraní hodn
   accer = 1.0;
   setW=1.0;
   angleation=0;
-  onob = 1;
-  onmriz = 1;
-  colr = 0;
 
   for (var i = 0; i < NT_NUMBER; i++) {   //input z formuláře
     var orbi = 'orbit' + i;
